@@ -10,7 +10,9 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve static files from the root directory where index.html is located
+app.use(express.static(path.join(__dirname)));
 
 // MongoDB Connection
 const uri = process.env.MONGODB_URI;
@@ -63,11 +65,10 @@ app.get('/api/contacts', async (req, res) => {
 
 // Serve index.html for all other routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-  
+  console.log(`Server running on port ${PORT}`);
+});
